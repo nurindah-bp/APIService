@@ -26,8 +26,20 @@ app.get('/division', (req, res) => {
     response(200, result, "Get All Division", res)
   })
 })
+app.get('/projectList', (req, res) => {
+  if (`${req.query.stproject}` === '1'){
+    whereStatus = `status_proyek in (0,1) `
+  }else{
+    whereStatus = `status_proyek in (${req.query.stproject}) `
+  }
+  const sql = `SELECT * FROM proyek WHERE ` + whereStatus
+  db.query(sql, (error, result) => {
+    if (error) throw error
+    response(200, result, "Get All Active Proyek", res)
+  })
+})
 
-app.post('/projectList', (req, res) => {
+app.post('/projectLists', (req, res) => {
   const {date, dateTo, idPegawai, statusProyek} = req.body
   let whereIdPeg = ''
   let whereStatus = ''
