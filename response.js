@@ -11,8 +11,10 @@
 //         },
 //     ])
 // }
-const response = (statusCode, data, message, res) => {
-    res.json(statusCode, data)
+const response = (statusCode, data, res) => {
+    // res.json(statusCode, data)
+
+    res.status(statusCode).json(data)
 }
 
 module.exports = response
