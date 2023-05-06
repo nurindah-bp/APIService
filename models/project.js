@@ -1,34 +1,34 @@
 const { sequelize, DataTypes, Sequelize } = require("../services/db.js");
 
-const tableName = "proyek";
-const ProyekModel = sequelize.define(
+const tableName = "project";
+const ProjectModel = sequelize.define(
   tableName,
   {
-    id_proyek: {
+    project_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    nama_proyek: {
+    project_name: {
       type: DataTypes.STRING(200),
     },
-    deskripsi_proyek: {
+    project_description: {
       type: DataTypes.TEXT('medium'),
     },
-    id_pegawai: {
+    employee_id: {
       type: DataTypes.INTEGER,
     },
-    tgl_proyek: {
+    project_date: {
       type: DataTypes.DATE,
       defaultValue: Sequelize.fn('now')
     },
-    deadline_proyek: {
+    project_deadline: {
       type: DataTypes.DATE,
     },
-    status_proyek: {
+    project_status: {
       type: DataTypes.INTEGER,
     },
-    id_user: {
+    user_id: {
       type: DataTypes.INTEGER,
     },
     stamp_date: {
@@ -41,4 +41,4 @@ const ProyekModel = sequelize.define(
   }
 );
 
-module.exports = ProyekModel; 
+module.exports = ProjectModel; 

@@ -1,18 +1,18 @@
 const { sequelize, DataTypes } = require("../services/db.js");
 
-const tableName = "jabatan";
-const JabatanModel = sequelize.define(
+const tableName = "m_division";
+const DivisionModel = sequelize.define(
   tableName,
   {
-    id_jabatan: {
+    division_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    nama_jabatan: {
+    division_name: {
       type: DataTypes.STRING(100),
     },
-    status_jabatan: {
+    division_status: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
     },
@@ -23,4 +23,4 @@ const JabatanModel = sequelize.define(
   }
 );
 
-module.exports = JabatanModel; 
+module.exports = DivisionModel; 

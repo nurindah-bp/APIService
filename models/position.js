@@ -1,18 +1,18 @@
 const { sequelize, DataTypes } = require("../services/db.js");
 
-const tableName = "bidang";
-const BidangModel = sequelize.define(
+const tableName = "m_position";
+const PositionModel = sequelize.define(
   tableName,
   {
-    id_bidang: {
+    position_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    nama_bidang: {
+    position_name: {
       type: DataTypes.STRING(100),
     },
-    status_bidang: {
+    position_status: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
     },
@@ -23,4 +23,4 @@ const BidangModel = sequelize.define(
   }
 );
 
-module.exports = BidangModel; 
+module.exports = PositionModel; 

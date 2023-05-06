@@ -4,12 +4,12 @@ const tableName = "user_login";
 const UserLoginModel = sequelize.define(
   tableName,
   {
-    id_login: {
+    user_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_pegawai: {
+    employee_id: {
       type: DataTypes.INTEGER,
     },
     username: {

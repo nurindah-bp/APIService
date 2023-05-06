@@ -1,27 +1,27 @@
 const { sequelize, DataTypes } = require("../services/db.js");
 
-const tableName = "pegawai";
-const PegawaiModel = sequelize.define(
+const tableName = "m_employee";
+const EmployeeModel = sequelize.define(
   tableName,
   {
-    id_pegawai: {
+    employee_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    noinduk_pegawai: {
+    employee_number: {
       type: DataTypes.STRING(100),
     },
-    nama_pegawai: {
+    employee_name: {
       type: DataTypes.STRING(150),
     },
-    id_jabatan: {
+    position_id: {
       type: DataTypes.INTEGER,
     },
-    id_bidang: {
+    division_id: {
       type: DataTypes.INTEGER,
     },
-    status_pegawai: {
+    employee_status: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
     },
@@ -32,4 +32,4 @@ const PegawaiModel = sequelize.define(
   }
 );
 
-module.exports = PegawaiModel; 
+module.exports = EmployeeModel; 

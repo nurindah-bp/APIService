@@ -4,18 +4,18 @@ const port = 3000
 const { connectDB } = require('./services/db');
 
 const AuthRoute = require("./routes/auth.js");
-const PegawaiRoute = require("./routes/pegawai.js");
-const ProyekRoute = require("./routes/proyek.js");
-const TugasRoute = require("./routes/tugas.js");
+const ProjectRoute = require("./routes/project.js");
+const TaskRoute = require("./routes/task.js");
+const EmployeeRoute = require("./routes/employee.js");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // app.use(cors()); 
 
 app.use("/auth", AuthRoute);
-app.use("/pegawai", PegawaiRoute);
-app.use("/proyek", ProyekRoute);
-app.use("/tugas", TugasRoute);
+app.use("/project", ProjectRoute);
+app.use("/task", TaskRoute);
+app.use("/employee",EmployeeRoute);
 
 (async () => {
   try {

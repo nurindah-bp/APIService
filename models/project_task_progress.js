@@ -1,27 +1,27 @@
 const { sequelize, DataTypes, Sequelize } = require("../services/db.js");
 
-const tableName = "progres_tugas_proyek";
-const ProgresTugasProyekModel = sequelize.define(
+const tableName = "project_task_progress";
+const ProjectTaskProgressModel = sequelize.define(
   tableName,
   {
-    id_progrestugas: {
+    ptask_progressid: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_tugas: {
+    ptask_id: {
       type: DataTypes.INTEGER,
     },
-    progres_tugas: {
+    ptask_progress: {
       type: DataTypes.TEXT('medium'),
     },
-    catatan_tugas: {
+    ptask_progressnote: {
       type: DataTypes.TEXT('medium'),
     },
-    status_tugas: {
+    ptask_progressstatus: {
       type: DataTypes.INTEGER,
     },
-    tgl_pengerjaan: {
+    ptask_progressdate: {
       type: DataTypes.DATE,
     },
     stamp_date: {
@@ -34,4 +34,4 @@ const ProgresTugasProyekModel = sequelize.define(
   }
 );
 
-module.exports = ProgresTugasProyekModel; 
+module.exports = ProjectTaskProgressModel; 

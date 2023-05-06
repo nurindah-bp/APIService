@@ -1,99 +1,99 @@
-const BidangModel = require("./bidang.js");
-const JabatanModel = require("./jabatan.js");
-const PegawaiModel = require("./pegawai.js");
-const ProgresTugasModel = require("./progres_tugas.js");
-const ProgresTugasProyekModel = require("./progres_tugas_proyek.js");
-const ProyekModel = require("./proyek.js");
-const TugasModel = require("./tugas.js");
-const TugasProyekModel = require("./tugas_proyek.js");
+const DivisionModel = require("./division.js");
+const PositionModel = require("./position.js");
+const EmployeeModel = require("./employee.js");
+const ProjectModel = require("./project.js");
+const ProjectTaskModel = require("./project_task.js");
+const ProjectTaskProgressModel = require("./project_task_progress.js");
+const TaskModel = require("./task.js");
+const TaskProgressModel = require("./task_progress.js");
 const UserLoginModel = require("./user_login.js");
 
 //  userlogin -> pegawai
-UserLoginModel.belongsTo(PegawaiModel, {
-    foreignKey: "id_pegawai",
+UserLoginModel.belongsTo(EmployeeModel, {
+    foreignKey: "employee_id",
     as: "pegawai",
 });
 
 // pegawai -> userlogin
-PegawaiModel.hasOne(UserLoginModel, {
-    foreignKey: "id_pegawai",
+EmployeeModel.hasOne(UserLoginModel, {
+    foreignKey: "employee_id",
     as: "user",
 });
 
-// tugas -> pegawai
-TugasModel.belongsTo(PegawaiModel,{
-    foreignKey: "id_pegawai",
-    as: "pegawai",
-});
-
-// pegawai -> tugas
-PegawaiModel.hasMany(TugasModel,{
-    foreignKey: "id_pegawai",
-    as: "tugas"
-});
-
 // proyek -> pegawai
-ProyekModel.belongsTo(PegawaiModel,{
-    foreignKey: "id_pegawai",
+ProjectModel.belongsTo(EmployeeModel,{
+    foreignKey: "employee_id",
     as: "pegawai"
 });
 
 // pegawai -> proyek
-PegawaiModel.hasMany(ProyekModel,{
-    foreignKey: "id_pegawai",
+EmployeeModel.hasMany(ProjectModel,{
+    foreignKey: "employee_id",
     as: "proyek"
 });
 
 // tugasproyek -> proyek
-TugasProyekModel.belongsTo(ProyekModel,{
-    foreignKey: "id_proyek",
+ProjectTaskModel.belongsTo(ProjectModel,{
+    foreignKey: "project_id",
     as: "proyek"
 });
 
-// progrestugasproyek -> tugasproyek
-ProgresTugasProyekModel.belongsTo(TugasProyekModel,{
-    foreignKey: "id_tugas",
-    as: "tugas_proyek"
-});
-
-// progrestugas -> tugasproyek
-ProgresTugasModel.belongsTo(TugasProyekModel,{
-    foreignKey: "id_tugas",
-    as: "tugas_proyek"
-});
-
 // tugasproyek -> pegawai
-TugasProyekModel.belongsTo(PegawaiModel,{
-    foreignKey: "id_pegawai",
+ProjectTaskModel.belongsTo(EmployeeModel,{
+    foreignKey: "employee_id",
     as: "pegawai"
 });
 
+// progrestugasproyek -> tugasproyek
+ProjectTaskProgressModel.belongsTo(ProjectTaskModel,{
+    foreignKey: "ptask_id",
+    as: "tugas_proyek"
+});
+
+// tugas -> pegawai
+TaskModel.belongsTo(EmployeeModel,{
+    foreignKey: "employee_id",
+    as: "pegawai",
+});
+
+// pegawai -> tugas
+EmployeeModel.hasMany(TaskModel,{
+    foreignKey: "employee_id",
+    as: "tugas"
+});
+
+// progrestugas -> tugasproyek
+TaskProgressModel.belongsTo(ProjectTaskModel,{
+    foreignKey: "task_id",
+    as: "tugas_proyek"
+});
+
 // pegawai -> bidang
-PegawaiModel.belongsTo(BidangModel,{
-    foreignKey: "id_bidang",
+EmployeeModel.belongsTo(DivisionModel,{
+    foreignKey: "division_id",
     as: "bidang"
 });
 
 // pegawai -> jabatan
-PegawaiModel.belongsTo(JabatanModel,{
-    foreignKey: "id_jabatan",
+EmployeeModel.belongsTo(PositionModel,{
+    foreignKey: "position_id",
     as: "jabatan"
 });
 
 // bidang -> pegawai
-BidangModel.hasMany(PegawaiModel,{
-    foreignKey: "id_bidang",
+DivisionModel.hasMany(EmployeeModel,{
+    foreignKey: "division_id",
     as: "pegawai"
 });
 
 module.exports = {
-    BidangModel,
-    JabatanModel, 
-    PegawaiModel, 
-    ProgresTugasProyekModel, 
-    ProgresTugasModel, 
-    ProyekModel, 
-    TugasProyekModel, 
-    TugasModel, 
+    DivisionModel,
+    PositionModel, 
+    EmployeeModel, 
+    ProjectTaskProgressModel, 
+    TaskProgressModel, 
+    ProjectModel, 
+    ProjectTaskModel, 
+    TaskModel, 
     UserLoginModel
 }; 
