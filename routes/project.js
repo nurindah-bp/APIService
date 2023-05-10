@@ -4,6 +4,14 @@ const { ProjectModel, ProjectTaskModel, ProjectTaskProgressModel } = require("..
 const { sequelize } = require("../services/db");
 const router = express.Router(express.json());
 
+router.get("/", async (req, res) => {
+    const findProjects = await ProjectModel.findAll({
+        where: { project_status: [0,1,2] }
+    })
+
+    return response(200, findProjects, res)
+});
+
 router.get("/projectList", async (req, res) => {
     if (`${req.query.stproject}` === '1') {
         project_status = [0, 1]
@@ -25,7 +33,7 @@ router.get("/ptaskList", async (req, res) => {
         ptask_status = [req.query.stptask]
     }
     const findAllPTask = await ProjectTaskModel.findAll({
-        where: { ptask_id: req.query.ptaskid, ptask_status: ptask_status },
+        where: { project_id: req.query.projectid, ptask_status: ptask_status },
         include: ['pegawai']
     })
 
