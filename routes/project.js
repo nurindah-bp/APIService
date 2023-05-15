@@ -6,7 +6,7 @@ const router = express.Router(express.json());
 
 router.get("/", async (req, res) => {
     const findProjects = await ProjectModel.findAll({
-        where: { project_status: [0,1,2] }
+        where: { project_status: [0, 1, 2] }
     })
 
     return response(200, findProjects, res)
@@ -19,7 +19,7 @@ router.get("/projectList", async (req, res) => {
         project_status = [req.query.stproject]
     }
     const findAllProject = await ProjectModel.findAll({
-        where: { project_status: project_status },
+        where: { project_div: req.query.projectdiv, project_status: project_status },
         include: ['pegawai']
     })
 
@@ -40,6 +40,15 @@ router.get("/ptaskList", async (req, res) => {
     return response(200, findAllPTask, res)
 });
 
+router.get("/ptaskDetil", async (req, res) => {
+    const findTask = await ProjectTaskModel.findAll({
+        where: { ptask_id: req.query.ptaskid },
+        include: ['pegawai']
+    })
+
+    return response(200, findTask, res)
+});
+
 router.get("/ptaskProgress", async (req, res) => {
     // if (`${req.query.stptaskprogress}` === '1') {
     //     ptask_progressstatus = [0,1]
@@ -55,6 +64,7 @@ router.get("/ptaskProgress", async (req, res) => {
 
 router.post("/addProj", async (req, res) => {
     // const { projName, projDesc, projPIC, projDate, projDeadline, userID } = req.body
+    const projDiv = req.body.projDiv;
     const projName = req.body.projName;
     const projDesc = req.body.projDesc;
     const projPIC = req.body.projPIC;
@@ -62,6 +72,7 @@ router.post("/addProj", async (req, res) => {
     const userID = req.body.userID;
     const addProject = await ProjectModel.create(
         {
+            project_div: projDiv,
             project_name: projName,
             project_description: projDesc,
             employee_id: projPIC,
@@ -91,12 +102,13 @@ router.post("/addProjTask", async (req, res) => {
 });
 
 router.post("/addProjTaskProgress", async (req, res) => {
-    const { projTaskProgress, projTaskID, projTaskProgressDate, projTaskProgressStatus } = req.body
+    const { projTaskProgress, projTaskID, projTaskProgressDate, projTaskProgressStatus, projTaskProgressNote } = req.body
     const addProjTaskProgress = await ProjectTaskProgressModel.create(
         {
             ptask_progress: projTaskProgress,
+            ptask_progressnote: projTaskProgressNote,
             ptask_id: projTaskID,
-            ptask_progressdate: projTaskProgressDate,
+            // ptask_progressdate: projTaskProgressDate,
             ptask_progressstatus: projTaskProgressStatus,
         }
     )
@@ -122,7 +134,7 @@ router.post("/updateProjTask", async (req, res) => {
     const updateProjTask = await ProjectTaskModel.update(
         {
             ptask_name: projTaskName,
-            ptask_description: projTaskDesc, 
+            ptask_description: projTaskDesc,
             project_id: projID,
             employee_id: projTaskPIC,
             ptask_deadline: projTaskDeadline,

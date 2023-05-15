@@ -23,6 +23,7 @@ const ProjectTaskProgressModel = sequelize.define(
     },
     ptask_progressdate: {
       type: DataTypes.DATE,
+      defaultValue: Sequelize.fn('now')
     },
     stamp_date: {
       type: DataTypes.DATE,

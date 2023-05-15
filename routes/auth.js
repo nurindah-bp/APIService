@@ -4,25 +4,29 @@ const { UserLoginModel } = require("../models");
 const router = express.Router(express.json());
 
 router.post("/login", async (req, res) => {
-    // const nip = req.body.nip;
+    const nip = req.body.nip;
     const username = req.body.username;
     const password = req.body.password;
-    const findUser = await UserLoginModel.findOne({ 
-        where: { username: req.body.username, password: req.body.password },
+    const findUserLogin = await UserLoginModel.findOne({
+        where: { '$pegawai.employee_number$': req.body.nip, password: req.body.password },
         include: ['pegawai']
     })
 
-    return response(200, findUser, res)
+    if (findUserLogin === null) {
+        return response(404, 'User Null', res)
+    } else {
+        return response(200, findUserLogin, res)
+    }
 });
 
 router.post("/updatePass", async (req, res) => {
-    const { userID, oldPass, newPass} = req.body
+    const { userID, oldPass, newPass } = req.body
 
-    const findUser= await UserLoginModel.findOne({
-        where: {user_id: userID}
+    const findUser = await UserLoginModel.findOne({
+        where: { user_id: userID }
     })
-    
-    if(findUser.password === oldPass){
+
+    if (findUser.password === oldPass) {
         const updatePass = await UserLoginModel.update(
             {
                 password: newPass,
@@ -32,10 +36,10 @@ router.post("/updatePass", async (req, res) => {
             }
         )
         return response(200, updatePass, res)
-    }else{
+    } else {
         return response(404, 'Old Password Invalid!', res)
     }
-    
+
 });
 
 module.exports = router; 

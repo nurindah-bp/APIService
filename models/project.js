@@ -9,6 +9,9 @@ const ProjectModel = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    project_div: {
+      type: DataTypes.INTEGER,
+    },
     project_name: {
       type: DataTypes.STRING(200),
     },

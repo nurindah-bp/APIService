@@ -1,11 +1,11 @@
 const express = require("express");
 const response = require('../response');
-const { TaskModel, TaskProgressModel,  } = require("../models");
+const { TaskModel, TaskProgressModel, } = require("../models");
 const router = express.Router(express.json());
 
 router.get("/taskList", async (req, res) => {
     if (`${req.query.sttask}` === '1') {
-        task_status = [0,1]
+        task_status = [0, 1]
     } else {
         task_status = [req.query.sttask]
     }
@@ -19,7 +19,7 @@ router.get("/taskList", async (req, res) => {
 
 router.get("/taskDetil", async (req, res) => {
     const findTask = await TaskModel.findAll({
-        where: { task_id : req.query.idtask },
+        where: { task_id: req.query.idtask },
         include: ['pegawai']
     })
 
@@ -28,7 +28,7 @@ router.get("/taskDetil", async (req, res) => {
 
 router.get("/taskProgress", async (req, res) => {
     const findProgresTugas = await TaskProgressModel.findAll({
-        where: { task_id : req.query.idtask }
+        where: { task_id: req.query.idtask }
     })
 
     return response(200, findProgresTugas, res)
@@ -51,12 +51,13 @@ router.post("/addTask", async (req, res) => {
 });
 
 router.post("/addTaskProgress", async (req, res) => {
-    const { taskProgress, taskID, taskProgressDate, taskProgressStatus } = req.body
+    const { taskProgress, taskProgressNote, taskID, taskProgressDate, taskProgressStatus } = req.body
     const addTaskProgress = await TaskProgressModel.create(
         {
             task_progress: taskProgress,
+            task_progressnote: taskProgressNote,
             task_id: taskID,
-            task_progressdate: taskProgressDate,
+            // task_progressdate: taskProgressDate,
             task_progressstatus: taskProgressStatus,
         }
     )
@@ -67,14 +68,15 @@ router.post("/addTaskProgress", async (req, res) => {
 });
 
 router.post("/updateTask", async (req, res) => {
-    const { taskName, taskDesc, taskPIC, taskDeadline, taskUrgent, taskID } = req.body
+    const { taskName, taskDesc, taskPIC, taskDeadline, taskUrgent, taskID, userID } = req.body
     const updateTask = await TaskModel.update(
         {
             task_name: taskName,
-            task_description: taskDesc, 
+            task_description: taskDesc,
             employee_id: taskPIC,
             task_deadline: taskDeadline,
             task_urgent: taskUrgent,
+            user_id: userID
         },
         {
             where: { task_id: taskID },
