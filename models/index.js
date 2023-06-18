@@ -7,6 +7,7 @@ const ProjectTaskProgressModel = require("./project_task_progress.js");
 const TaskModel = require("./task.js");
 const TaskProgressModel = require("./task_progress.js");
 const UserLoginModel = require("./user_login.js");
+const { Model } = require("sequelize");
 
 //  userlogin -> pegawai
 UserLoginModel.belongsTo(EmployeeModel, {
@@ -19,6 +20,31 @@ EmployeeModel.hasOne(UserLoginModel, {
     foreignKey: "employee_id",
     as: "user",
 });
+
+// divisi -> proyek
+DivisionModel.hasMany(ProjectModel,{
+    foreignKey: "project_div",
+    as: "projects"
+})
+
+// project -> project task 
+ProjectModel.hasMany(ProjectTaskModel,{
+    foreignKey: "project_id",
+    as: "project_tasks"
+})
+
+// project task -> project task progres 
+ProjectTaskModel.hasMany(ProjectTaskProgressModel,{
+    foreignKey: "ptask_id",
+    as: "project_task_progres"
+})
+
+// proyek -> divisi
+ProjectModel.belongsTo(DivisionModel,{
+    foreignKey: "project_div",
+    as: "divisi"
+});
+
 
 // proyek -> pegawai
 ProjectModel.belongsTo(EmployeeModel,{
@@ -62,10 +88,16 @@ EmployeeModel.hasMany(TaskModel,{
     as: "tugas"
 });
 
-// progrestugas -> tugasproyek
-TaskProgressModel.belongsTo(ProjectTaskModel,{
+// tugas -> progrestugas
+TaskModel.hasMany(TaskProgressModel,{
     foreignKey: "task_id",
-    as: "tugas_proyek"
+    as: "tugas"
+});
+
+// progrestugas -> tugas
+TaskProgressModel.belongsTo(TaskModel,{
+    foreignKey: "task_id",
+    as: "tugas"
 });
 
 // pegawai -> bidang

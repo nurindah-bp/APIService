@@ -4,6 +4,7 @@ const port = 3000
 const { connectDB } = require('./services/db');
 
 const AuthRoute = require("./routes/auth.js");
+const DashboardRoute = require("./routes/dashboard.js");
 const ProjectRoute = require("./routes/project.js");
 const TaskRoute = require("./routes/task.js");
 const EmployeeRoute = require("./routes/employee.js");
@@ -13,6 +14,7 @@ app.use(express.json());
 // app.use(cors()); 
 
 app.use("/auth", AuthRoute);
+app.use("/dashboard", DashboardRoute);
 app.use("/project", ProjectRoute);
 app.use("/task", TaskRoute);
 app.use("/employee",EmployeeRoute);

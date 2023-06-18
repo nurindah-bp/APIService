@@ -60,7 +60,14 @@ router.post("/addTaskProgress", async (req, res) => {
             // task_progressdate: taskProgressDate,
             task_progressstatus: taskProgressStatus,
         }
-    )
+    );
+
+    if(taskProgressStatus == 2){
+        await TaskModel.update({ 
+            task_status : 2},{
+            where: { task_id: taskID },
+        })
+    }
 
     return response(200, addTaskProgress, res)
 

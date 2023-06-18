@@ -1,8 +1,19 @@
 const express = require("express");
 const response = require('../response');
-const { ProjectModel, ProjectTaskModel, ProjectTaskProgressModel } = require("../models");
+const { ProjectModel, ProjectTaskModel, ProjectTaskProgressModel, DivisionModel } = require("../models");
 const { sequelize } = require("../services/db");
 const router = express.Router(express.json());
+
+// TODO: Route buat ambil semua data berisi { divisi : { project : { task : { progres } } } } 
+
+// router.get("/projects", async (req, res) => {
+//     const findAllProjects = await DivisionModel.findAll({
+//         // include: ["projects"]
+//         include: { all: true, nested: true }
+//     });
+
+//     return response(200, findAllProjects, res)
+// });
 
 router.get("/", async (req, res) => {
     const findProjects = await ProjectModel.findAll({
@@ -113,17 +124,17 @@ router.post("/addProjTaskProgress", async (req, res) => {
         }
     )
 
-    // const findPTask = await ProjectTaskProgressModel.findAll({ 
-    //     attributes: [[sequelize.fn('COUNT', sequelize.col('ptask_progressid')), 'n_ptpid']],
-    //     where: { ptask_id: projTaskID, ptask_progressstatus: 2 },
-    // })
+    const findPTask = await ProjectTaskProgressModel.findAll({ 
+        attributes: [[sequelize.fn('COUNT', sequelize.col('ptask_progressid')), 'n_ptpid']],
+        where: { ptask_id: projTaskID, ptask_progressstatus: 2 },
+    })
 
-    // if(findPTask > 0){
-    //     await ProjectTaskModel.update({ 
-    //         ptask_status : 2},{
-    //         where: { ptask_id: projTaskID },
-    //     })
-    // }
+    if(projTaskProgressStatus == 2){
+        await ProjectTaskModel.update({ 
+            ptask_status : 2},{
+            where: { ptask_id: projTaskID },
+        })
+    }
     return response(200, addProjTaskProgress, res)
 
 
