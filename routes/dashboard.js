@@ -103,21 +103,7 @@ return response(200, result[0], res)
 // to kepsek
 router.get("/dashprojects", async (req, res) => {
   const project_div = req.query.project_div;
-  const result = await sequelize.query(`SELECT
-	IFNULL(done,0) done, 
-	IFNULL(total,0) total,
-	project_div, division_id, division_name
-FROM
-	(
-	SELECT
-  (select COUNT(IFNULL(project_id,0)) as done from project where project_status = 2) as done, 
-  (select COUNT(IFNULL(project_id,0)) as total from project) as total, 
-  IFNULL(project_div,0) as project_div, division_id, division_name
-
-FROM
-  project a RIGHT JOIN m_division b on a.project_div = b.division_id
-	)a 
-	GROUP BY division_id`);
+  const result = await sequelize.query(`SELECT * FROM project_resume`);
   return response(200, result[0], res)
 });
 
