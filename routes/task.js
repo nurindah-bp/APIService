@@ -2,15 +2,31 @@ const express = require("express");
 const response = require('../response');
 const { TaskModel, TaskProgressModel, } = require("../models");
 const router = express.Router(express.json());
-
+const { Op } = require('sequelize');
 router.get("/taskList", async (req, res) => {
+    if(`${req.query.position}` === '2'){
+        user_id = [req.query.sessionId]
+        employee_id = [req.query.sessionId]
+    }else{
+        user_id = []
+        employee_id = [req.query.sessionId]
+    }
     if (`${req.query.sttask}` === '1') {
         task_status = [0, 1]
     } else {
         task_status = [req.query.sttask]
     }
     const findAllTasks = await TaskModel.findAll({
-        where: {task_status: task_status},
+        // where: {task_status: task_status},
+        where: {
+            task_status: {
+                [Op.in]: task_status,
+            },
+            [Op.or]: [
+              { employee_id },
+              { user_id },
+            ],
+          },
         include: ['pegawai']
     })
 
