@@ -10,7 +10,7 @@ router.get("/taskList", async (req, res) => {
         task_status = [req.query.sttask]
     }
     const findAllTasks = await TaskModel.findAll({
-        where: { task_status: task_status },
+        where: {task_status: task_status},
         include: ['pegawai']
     })
 

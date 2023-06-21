@@ -95,6 +95,20 @@ router.post("/addProj", async (req, res) => {
     return response(200, addProject, res)
 });
 
+
+router.post("/updateProjStatus", async (req, res) => {
+    const { projID } = req.body
+    const updateProjStatus = await ProjectModel.update(
+        {
+            project_status: 2
+        },
+        {
+            where: { project_id: projID },
+        }
+    )
+    return response(200, updateProjStatus, res)
+});
+
 router.post("/addProjTask", async (req, res) => {
     const { projTaskName, projTaskDesc, projID, projTaskPIC, projTaskDeadline, projTaskUrgent, userID } = req.body
     const addProjTask = await ProjectTaskModel.create(
@@ -124,14 +138,15 @@ router.post("/addProjTaskProgress", async (req, res) => {
         }
     )
 
-    const findPTask = await ProjectTaskProgressModel.findAll({ 
-        attributes: [[sequelize.fn('COUNT', sequelize.col('ptask_progressid')), 'n_ptpid']],
-        where: { ptask_id: projTaskID, ptask_progressstatus: 2 },
-    })
+    // const findPTask = await ProjectTaskProgressModel.findAll({
+    //     attributes: [[sequelize.fn('COUNT', sequelize.col('ptask_progressid')), 'n_ptpid']],
+    //     where: { ptask_id: projTaskID, ptask_progressstatus: 2 },
+    // })
 
-    if(projTaskProgressStatus == 2){
-        await ProjectTaskModel.update({ 
-            ptask_status : 2},{
+    if (projTaskProgressStatus == 2) {
+        await ProjectTaskModel.update({
+            ptask_status: 2
+        }, {
             where: { ptask_id: projTaskID },
         })
     }
@@ -139,6 +154,7 @@ router.post("/addProjTaskProgress", async (req, res) => {
 
 
 });
+
 
 router.post("/updateProjTask", async (req, res) => {
     const { projTaskName, projTaskDesc, projID, projTaskPIC, projTaskDeadline, projTaskUrgent, projTaskID } = req.body
