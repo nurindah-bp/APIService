@@ -117,7 +117,7 @@ router.post("/addProjTask", async (req, res) => {
             ptask_description: projTaskDesc,
             project_id: projID,
             employee_id: projTaskPIC,
-            ptask_deadline: projTaskDeadline,
+            ptask_deadline: new Date(projTaskDeadline),
             ptask_urgent: projTaskUrgent,
             user_id: userID
         }

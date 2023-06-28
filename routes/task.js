@@ -3,6 +3,7 @@ const response = require('../response');
 const { TaskModel, TaskProgressModel, } = require("../models");
 const router = express.Router(express.json());
 const { Op } = require('sequelize');
+
 router.get("/taskList", async (req, res) => {
     if(`${req.query.position}` === '2'){
         user_id = [req.query.sessionId]
